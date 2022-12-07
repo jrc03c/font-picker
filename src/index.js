@@ -1,10 +1,12 @@
 const { createApp } = require("vue")
+const lodash = require("lodash")
 
 function createFont() {
   return {
-    family: "Arial",
-    weight: 400,
-    selectors: [],
+    family: "IBM Plex Sans",
+    selectors: "",
+    variants: [],
+    selectedVariant: null,
   }
 }
 
@@ -35,7 +37,7 @@ window.addEventListener("load", async () => {
   const app = createApp({
     template: /* html */ `
       <div class="font-picker">
-        <div v-for="myFont in fonts" class="font-picker-font">
+        <div v-for="myFont in myFonts" class="font-picker-font">
           <button class="font-picker-delete-button" @click="deleteFont(myFont)">
             ✕
           </button>
@@ -63,6 +65,8 @@ window.addEventListener("load", async () => {
             <input
               class="font-picker-font-selectors-input"
               type="text"
+              :value="myFont.selectors"
+              @input="setFontSelectors(myFont, $event.target.value)"
               placeholder="h1, .some-class, #some-id">
           </div>
         </div>
@@ -75,73 +79,87 @@ window.addEventListener("load", async () => {
 
     data() {
       return {
-        fonts: [],
+        extraStylesElement: null,
+        myFonts: [],
         fontData,
-
-        webSafeFonts: [
-          "Helvetica",
-          "Arial",
-          "Arial Black",
-          "Verdana",
-          "Tahoma",
-          "Trebuchet MS",
-          "Impact",
-          "Gill Sans",
-          "Times New Roman",
-          "Georgia",
-          "Palatino",
-          "Baskerville",
-          "Andalé Mono",
-          "Courier",
-          "Lucida",
-          "Monaco",
-          "Bradley Hand",
-          "Brush Script MT",
-          "Luminari",
-          "Comic Sans MS",
-        ],
+        sortedFonts: [],
       }
-    },
-
-    computed: {
-      sortedFonts() {
-        const self = this
-
-        return sort(
-          self.fontData.items.concat(
-            self.webSafeFonts.map(font => {
-              const out = createFont()
-              out.family = font
-              return out
-            })
-          ),
-          (a, b) => (a.family < b.family ? -1 : 1)
-        )
-      },
     },
 
     methods: {
       addFont() {
         const self = this
-        self.fonts.push(createFont())
+        self.myFonts.push(createFont())
+        self.updateStyles()
         self.save()
       },
 
       setFontFamily(font, family) {
         const self = this
         font.family = family
+        self.updateStyles()
         self.save()
       },
 
+      setFontSelectors: lodash.debounce(function (font, selectors) {
+        const self = this
+        font.selectors = selectors
+        self.updateStyles()
+        self.save()
+      }, 500),
+
       deleteFont(font) {
         const self = this
-        self.fonts.splice(self.fonts.indexOf(font), 1)
+        self.myFonts.splice(self.myFonts.indexOf(font), 1)
+        self.updateStyles()
         self.save()
+      },
+
+      updateStyles() {
+        const self = this
+
+        let interval = setInterval(() => {
+          if (
+            !self.fontData ||
+            !self.fontData.items ||
+            !self.fontData.items.find
+          ) {
+            return
+          }
+
+          clearInterval(interval)
+
+          const importStatements = self.myFonts
+            .map(font => {
+              const itemData = self.fontData.items.find(
+                other => other.family === font.family
+              )
+
+              return Object.keys(itemData.files)
+                .map(
+                  file =>
+                    `@font-face { font-family: "${font.family}"; src: url("${itemData.files[file]}"); }`
+                )
+                .join("\n")
+            })
+            .join("\n")
+
+          const rules = self.myFonts
+            .map(font => {
+              return font.selectors.trim().length === 0
+                ? null
+                : `${font.selectors} { font-family: "${font.family}" !important; }`
+            })
+            .filter(rule => !!rule)
+            .join("\n")
+
+          self.extraStylesElement.innerHTML = importStatements + "\n" + rules
+        }, 10)
       },
 
       save() {
         const self = this
-        localStorage.setItem("my-fonts", JSON.stringify(self.fonts))
+        localStorage.setItem("my-fonts", JSON.stringify(self.myFonts))
       },
     },
 
@@ -150,15 +168,28 @@ window.addEventListener("load", async () => {
       const myFonts = localStorage.getItem("my-fonts")
 
       if (myFonts) {
-        self.fonts = JSON.parse(myFonts)
+        self.myFonts = JSON.parse(myFonts)
       } else {
-        self.fonts.push(createFont())
+        self.myFonts.push(createFont())
       }
+
+      self.sortedFonts = self.fontData.items.map(item => {
+        const out = createFont()
+        out.family = item.family
+        out.variants = item.variants.slice()
+        return out
+      })
+
+      const extraStylesElement = document.createElement("style")
+      document.body.appendChild(extraStylesElement)
+      self.extraStylesElement = extraStylesElement
+      self.updateStyles()
     },
 
     unmounted() {
       document.body.removeChild(style)
       document.body.removeChild(container)
+      document.body.removeChild(self.extraStylesElement)
     },
   })
 
@@ -171,8 +202,8 @@ window.addEventListener("load", async () => {
     #font-picker-container input,
     #font-picker-container select,
     #font-picker-container option {
-      font-family: monospace;
-      font-size: 0.85rem;
+      font-family: monospace !important;
+      font-size: 0.85rem !important;
       border-radius: 4px;
     }
 
