@@ -1,0 +1,1 @@
+(()=>{window.addEventListener("load",async()=>{let t=localStorage.getItem("font-data"),e=await(async()=>{if(t)return JSON.parse(t);{let a=await(await fetch("/api/get-font-list")).json();return localStorage.setItem("font-data",JSON.stringify(a)),a}})();console.log(e)});})();
