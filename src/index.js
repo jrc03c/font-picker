@@ -1,21 +1,10 @@
+const { capitalize } = require("./utils")
 const { createApp } = require("vue")
+const createMyFont = require("./create-my-font")
+const css = require("./css")
+const html = require("./html")
 const lodash = require("lodash")
 const webSafeFonts = require("../api/web-safe-fonts")
-
-function createMyFont(font) {
-  return {
-    family: font.family,
-    files: font.files,
-    variants: font.variants,
-    variant: font.variants[0] || "regular",
-    selectors: "",
-  }
-}
-
-function capitalize(x) {
-  let out = x.toString()
-  return out[0].toUpperCase() + out.substring(1)
-}
 
 window.addEventListener("load", async () => {
   const allFontsCache = localStorage.getItem("all-fonts")
@@ -32,70 +21,7 @@ window.addEventListener("load", async () => {
   })()
 
   const app = createApp({
-    template: /* html */ `
-      <div class="font-picker">
-        <div class="font-picker-fonts">
-          <div v-for="myFont in myFonts" class="font-picker-font">
-            <button
-              class="font-picker-delete-button"
-              @click="deleteFont(myFont)">
-              ✕
-            </button>
-
-            <label class="font-picker-font-family-label">
-              Family:
-            </label>
-
-            <div class="font-picker-font-family-select-container">
-              <select
-                class="font-picker-font-family-select"
-                @input="setFontFamily(myFont, $event.target.value)"
-                :value="myFont.family">
-                <option v-for="font in allFonts" :value="font.family">
-                  {{ font.family }}
-                </option>
-              </select>
-            </div>
-
-            <label class="font-picker-font-variants-label">
-              Variant:
-            </label>
-
-            <div class="font-picker-font-variants-select-container">
-              <select
-                class="font-picker-font-variants-select"
-                @input="setFontVariant(myFont, $event.target.value)"
-                :value="myFont.variant || myFont.variants[0]">
-                <option v-for="variant in myFont.variants" :value="variant">
-                  {{ variant }}
-                </option>
-              </select>
-            </div>
-
-            <label class="font-picker-font-selectors-label">
-              Selectors:
-            </label>
-
-            <div class="font-picker-font-selectors-input-container">
-              <input
-                class="font-picker-font-selectors-input"
-                type="text"
-                :value="myFont.selectors"
-                @input="setFontSelectors(myFont, $event.target.value)"
-                placeholder="h1, .some-class, #some-id">
-            </div>
-          </div>
-        </div>
-
-        <div class="font-picker-add-font-button-container">
-          <button
-            class="font-picker-add-font-button"
-            @click="addFont">
-            Add font
-          </button>
-        </div>
-      </div>
-    `,
+    template: html,
 
     data() {
       return {
@@ -218,102 +144,7 @@ window.addEventListener("load", async () => {
 
   const style = document.createElement("style")
   document.body.appendChild(style)
-
-  style.innerHTML = /* css */ `
-    #font-picker-container *,
-    #font-picker-container button,
-    #font-picker-container input,
-    #font-picker-container select,
-    #font-picker-container option {
-      font-family: monospace !important;
-      font-size: 0.85rem !important;
-      border-radius: 4px;
-    }
-
-    #font-picker-container button,
-    #font-picker-container input,
-    #font-picker-container select,
-    #font-picker-container option {
-      border: 2px solid gray;
-      padding: 0.375rem;
-    }
-
-    #font-picker-container button,
-    #font-picker-container select,
-    #font-picker-container option {
-      cursor: pointer;
-    }
-
-    #font-picker-container label {
-      display: block;
-      margin-bottom: 0.375rem;
-    }
-
-    #font-picker-container {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      padding: 1.5rem;
-      background-color: rgb(235, 235, 235);
-      border-radius: 4px;
-      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .font-picker-fonts {
-      margin-bottom: 1.5rem;
-    }
-
-    .font-picker-font {
-      margin-bottom: 4px;
-      padding: 1.5rem;
-      border-radius: 4px;
-      background-color: rgb(245, 245, 245);
-      position: relative;
-    }
-
-    button.font-picker-delete-button {
-      position: absolute;
-      top: calc(0.375rem * 0.85);
-      right: calc(0.375rem * 0.85);
-      margin: 0;
-      padding: 0;
-      border: 0 !important;
-      border-radius: 100% !important;
-      width: calc(1.5rem * 0.85);
-      min-width: calc(1.5rem * 0.85);
-      max-width: calc(1.5rem * 0.85);
-      height: calc(1.5rem * 0.85);
-      min-height: calc(1.5rem * 0.85);
-      max-height: calc(1.5rem * 0.85);
-      background-color: transparent;
-      cursor: pointer;
-      display: inline-flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-content: center;
-      align-items: center;
-      font-size: calc(1rem / 0.85) !important;
-    }
-
-    button.font-picker-delete-button:hover {
-      color: red;
-    }
-    
-    .font-picker-font-family-select-container,
-    .font-picker-font-variants-select-container {
-      margin-bottom: 0.75rem;
-    }
-
-    input.font-picker-font-selectors-input {
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .font-picker-add-font-button-container {
-      text-align: right;
-    }
-  `
+  style.innerHTML = css
 
   const container = document.createElement("div")
   container.id = "font-picker-container"
