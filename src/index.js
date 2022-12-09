@@ -34,58 +34,66 @@ window.addEventListener("load", async () => {
   const app = createApp({
     template: /* html */ `
       <div class="font-picker">
-        <div v-for="myFont in myFonts" class="font-picker-font">
-          <button class="font-picker-delete-button" @click="deleteFont(myFont)">
-            ✕
-          </button>
+        <div class="font-picker-fonts">
+          <div v-for="myFont in myFonts" class="font-picker-font">
+            <button
+              class="font-picker-delete-button"
+              @click="deleteFont(myFont)">
+              ✕
+            </button>
 
-          <label class="font-picker-font-family-label">
-            Family:
-          </label>
+            <label class="font-picker-font-family-label">
+              Family:
+            </label>
 
-          <div class="font-picker-font-family-select-container">
-            <select
-              class="font-picker-font-family-select"
-              @input="setFontFamily(myFont, $event.target.value)"
-              :value="myFont.family">
-              <option v-for="font in allFonts" :value="font.family">
-                {{ font.family }}
-              </option>
-            </select>
-          </div>
+            <div class="font-picker-font-family-select-container">
+              <select
+                class="font-picker-font-family-select"
+                @input="setFontFamily(myFont, $event.target.value)"
+                :value="myFont.family">
+                <option v-for="font in allFonts" :value="font.family">
+                  {{ font.family }}
+                </option>
+              </select>
+            </div>
 
-          <label class="font-picker-font-variants-label">
-            Variant:
-          </label>
+            <label class="font-picker-font-variants-label">
+              Variant:
+            </label>
 
-          <div class="font-picker-font-variants-select-container">
-            <select
-              class="font-picker-font-variants-select"
-              @input="setFontVariant(myFont, $event.target.value)"
-              :value="myFont.variant || myFont.variants[0]">
-              <option v-for="variant in myFont.variants" :value="variant">
-                {{ variant }}
-              </option>
-            </select>
-          </div>
+            <div class="font-picker-font-variants-select-container">
+              <select
+                class="font-picker-font-variants-select"
+                @input="setFontVariant(myFont, $event.target.value)"
+                :value="myFont.variant || myFont.variants[0]">
+                <option v-for="variant in myFont.variants" :value="variant">
+                  {{ variant }}
+                </option>
+              </select>
+            </div>
 
-          <label class="font-picker-font-selectors-label">
-            Selectors:
-          </label>
+            <label class="font-picker-font-selectors-label">
+              Selectors:
+            </label>
 
-          <div class="font-picker-font-selectors-input-container">
-            <input
-              class="font-picker-font-selectors-input"
-              type="text"
-              :value="myFont.selectors"
-              @input="setFontSelectors(myFont, $event.target.value)"
-              placeholder="h1, .some-class, #some-id">
+            <div class="font-picker-font-selectors-input-container">
+              <input
+                class="font-picker-font-selectors-input"
+                type="text"
+                :value="myFont.selectors"
+                @input="setFontSelectors(myFont, $event.target.value)"
+                placeholder="h1, .some-class, #some-id">
+            </div>
           </div>
         </div>
 
-        <br>
-
-        <button @click="addFont">Add font</button>
+        <div class="font-picker-add-font-button-container">
+          <button
+            class="font-picker-add-font-button"
+            @click="addFont">
+            Add font
+          </button>
+        </div>
       </div>
     `,
 
@@ -251,6 +259,10 @@ window.addEventListener("load", async () => {
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
     }
 
+    .font-picker-fonts {
+      margin-bottom: 1.5rem;
+    }
+
     .font-picker-font {
       margin-bottom: 4px;
       padding: 1.5rem;
@@ -296,6 +308,10 @@ window.addEventListener("load", async () => {
     input.font-picker-font-selectors-input {
       width: 100%;
       box-sizing: border-box;
+    }
+
+    .font-picker-add-font-button-container {
+      text-align: right;
     }
   `
 

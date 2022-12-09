@@ -48,58 +48,66 @@ function print() { __p += __j.call(arguments, '') }
 `)+J+`return __p
 }`;var Oe=Ng(function(){return Ge(b,ye+"return "+J).apply(s,E)});if(Oe.source=J,zu(Oe))throw Oe;return Oe}function Vw(n){return Ye(n).toLowerCase()}function jw(n){return Ye(n).toUpperCase()}function Ww(n,o,h){if(n=Ye(n),n&&(h||o===s))return Ud(n);if(!n||!(o=us(o)))return n;var d=Bs(n),g=Bs(o),b=qd(d,g),E=$d(d,g)+1;return Vr(d,b,E).join("")}function Kw(n,o,h){if(n=Ye(n),n&&(h||o===s))return n.slice(0,Vd(n)+1);if(!n||!(o=us(o)))return n;var d=Bs(n),g=$d(d,Bs(o))+1;return Vr(d,0,g).join("")}function zw(n,o,h){if(n=Ye(n),n&&(h||o===s))return n.replace(zc,"");if(!n||!(o=us(o)))return n;var d=Bs(n),g=qd(d,Bs(o));return Vr(d,g).join("")}function Gw(n,o){var h=q,d=te;if(ft(o)){var g="separator"in o?o.separator:g;h="length"in o?ke(o.length):h,d="omission"in o?us(o.omission):d}n=Ye(n);var b=n.length;if(sn(n)){var E=Bs(n);b=E.length}if(h>=b)return n;var C=h-rn(d);if(C<1)return d;var O=E?Vr(E,0,C).join(""):n.slice(0,C);if(g===s)return O+d;if(E&&(C+=O.length-C),Gu(g)){if(n.slice(C).search(g)){var V,j=O;for(g.global||(g=uu(g.source,Ye(od.exec(g))+"g")),g.lastIndex=0;V=g.exec(j);)var J=V.index;O=O.slice(0,J===s?C:J)}}else if(n.indexOf(us(g),C)!=C){var oe=O.lastIndexOf(g);oe>-1&&(O=O.slice(0,oe))}return O+d}function Jw(n){return n=Ye(n),n&&av.test(n)?n.replace(id,ET):n}var Yw=un(function(n,o,h){return n+(h?" ":"")+o.toUpperCase()}),Xu=km("toUpperCase");function Ig(n,o,h){return n=Ye(n),o=h?s:o,o===s?bT(n)?CT(n):uT(n):n.match(o)||[]}var Ng=Le(function(n,o){try{return ls(n,s,o)}catch(h){return zu(h)?h:new we(h)}}),Xw=pr(function(n,o){return Es(o,function(h){h=Xs(h),hr(n,h,Wu(n[h],n))}),n});function Zw(n){var o=n==null?0:n.length,h=Pe();return n=o?ct(n,function(d){if(typeof d[1]!="function")throw new As(i);return[h(d[0]),d[1]]}):[],Le(function(d){for(var g=-1;++g<o;){var b=n[g];if(ls(b[0],this,d))return ls(b[1],this,d)}})}function Qw(n){return EP(Cs(n,f))}function Zu(n){return function(){return n}}function eC(n,o){return n==null||n!==n?o:n}var tC=Lm(),sC=Lm(!0);function es(n){return n}function Qu(n){return cm(typeof n=="function"?n:Cs(n,f))}function rC(n){return hm(Cs(n,f))}function iC(n,o){return fm(n,Cs(o,f))}var nC=Le(function(n,o){return function(h){return ra(h,n,o)}}),aC=Le(function(n,o){return function(h){return ra(n,h,o)}});function eh(n,o,h){var d=_t(o),g=Fo(o,d);h==null&&!(ft(o)&&(g.length||!d.length))&&(h=o,o=n,n=this,g=Fo(o,_t(o)));var b=!(ft(h)&&"chain"in h)||!!h.chain,E=mr(n);return Es(g,function(C){var O=o[C];n[C]=O,E&&(n.prototype[C]=function(){var V=this.__chain__;if(b||V){var j=n(this.__wrapped__),J=j.__actions__=Xt(this.__actions__);return J.push({func:O,args:arguments,thisArg:n}),j.__chain__=V,j}return O.apply(n,Rr([this.value()],arguments))})}),n}function oC(){return Ct._===this&&(Ct._=LT),this}function th(){}function lC(n){return n=ke(n),Le(function(o){return pm(o,n)})}var cC=Ou(ct),uC=Ou(Md),hC=Ou(ru);function kg(n){return Uu(n)?iu(Xs(n)):$P(n)}function fC(n){return function(o){return n==null?s:yi(n,o)}}var pC=Dm(),dC=Dm(!0);function sh(){return[]}function rh(){return!1}function mC(){return{}}function gC(){return""}function yC(){return!0}function xC(n,o){if(n=ke(n),n<1||n>Ne)return[];var h=mt,d=Dt(n,mt);o=Pe(o),n-=mt;for(var g=ou(d,o);++h<n;)o(h);return g}function bC(n){return _e(n)?ct(n,Xs):hs(n)?[n]:Xt(Xm(Ye(n)))}function vC(n){var o=++kT;return Ye(n)+o}var TC=Vo(function(n,o){return n+o},0),PC=Lu("ceil"),SC=Vo(function(n,o){return n/o},1),EC=Lu("floor");function AC(n){return n&&n.length?Ro(n,es,xu):s}function wC(n,o){return n&&n.length?Ro(n,Pe(o,2),xu):s}function CC(n){return Fd(n,es)}function _C(n,o){return Fd(n,Pe(o,2))}function IC(n){return n&&n.length?Ro(n,es,Pu):s}function NC(n,o){return n&&n.length?Ro(n,Pe(o,2),Pu):s}var kC=Vo(function(n,o){return n*o},1),OC=Lu("round"),LC=Vo(function(n,o){return n-o},0);function MC(n){return n&&n.length?au(n,es):0}function DC(n,o){return n&&n.length?au(n,Pe(o,2)):0}return x.after=rA,x.ary=lg,x.assign=jA,x.assignIn=Pg,x.assignInWith=sl,x.assignWith=WA,x.at=KA,x.before=cg,x.bind=Wu,x.bindAll=Xw,x.bindKey=ug,x.castArray=mA,x.chain=ng,x.chunk=ES,x.compact=AS,x.concat=wS,x.cond=Zw,x.conforms=Qw,x.constant=Zu,x.countBy=ME,x.create=zA,x.curry=hg,x.curryRight=fg,x.debounce=pg,x.defaults=GA,x.defaultsDeep=JA,x.defer=iA,x.delay=nA,x.difference=CS,x.differenceBy=_S,x.differenceWith=IS,x.drop=NS,x.dropRight=kS,x.dropRightWhile=OS,x.dropWhile=LS,x.fill=MS,x.filter=RE,x.flatMap=UE,x.flatMapDeep=qE,x.flatMapDepth=$E,x.flatten=tg,x.flattenDeep=DS,x.flattenDepth=RS,x.flip=aA,x.flow=tC,x.flowRight=sC,x.fromPairs=FS,x.functions=sw,x.functionsIn=rw,x.groupBy=HE,x.initial=US,x.intersection=qS,x.intersectionBy=$S,x.intersectionWith=HS,x.invert=nw,x.invertBy=aw,x.invokeMap=jE,x.iteratee=Qu,x.keyBy=WE,x.keys=_t,x.keysIn=Qt,x.map=Yo,x.mapKeys=lw,x.mapValues=cw,x.matches=rC,x.matchesProperty=iC,x.memoize=Zo,x.merge=uw,x.mergeWith=Sg,x.method=nC,x.methodOf=aC,x.mixin=eh,x.negate=Qo,x.nthArg=lC,x.omit=hw,x.omitBy=fw,x.once=oA,x.orderBy=KE,x.over=cC,x.overArgs=lA,x.overEvery=uC,x.overSome=hC,x.partial=Ku,x.partialRight=dg,x.partition=zE,x.pick=pw,x.pickBy=Eg,x.property=kg,x.propertyOf=fC,x.pull=KS,x.pullAll=rg,x.pullAllBy=zS,x.pullAllWith=GS,x.pullAt=JS,x.range=pC,x.rangeRight=dC,x.rearg=cA,x.reject=YE,x.remove=YS,x.rest=uA,x.reverse=Vu,x.sampleSize=ZE,x.set=mw,x.setWith=gw,x.shuffle=QE,x.slice=XS,x.sortBy=sA,x.sortedUniq=iE,x.sortedUniqBy=nE,x.split=Uw,x.spread=hA,x.tail=aE,x.take=oE,x.takeRight=lE,x.takeRightWhile=cE,x.takeWhile=uE,x.tap=AE,x.throttle=fA,x.thru=Jo,x.toArray=bg,x.toPairs=Ag,x.toPairsIn=wg,x.toPath=bC,x.toPlainObject=Tg,x.transform=yw,x.unary=pA,x.union=hE,x.unionBy=fE,x.unionWith=pE,x.uniq=dE,x.uniqBy=mE,x.uniqWith=gE,x.unset=xw,x.unzip=ju,x.unzipWith=ig,x.update=bw,x.updateWith=vw,x.values=pn,x.valuesIn=Tw,x.without=yE,x.words=Ig,x.wrap=dA,x.xor=xE,x.xorBy=bE,x.xorWith=vE,x.zip=TE,x.zipObject=PE,x.zipObjectDeep=SE,x.zipWith=EE,x.entries=Ag,x.entriesIn=wg,x.extend=Pg,x.extendWith=sl,eh(x,x),x.add=TC,x.attempt=Ng,x.camelCase=Aw,x.capitalize=Cg,x.ceil=PC,x.clamp=Pw,x.clone=gA,x.cloneDeep=xA,x.cloneDeepWith=bA,x.cloneWith=yA,x.conformsTo=vA,x.deburr=_g,x.defaultTo=eC,x.divide=SC,x.endsWith=ww,x.eq=qs,x.escape=Cw,x.escapeRegExp=_w,x.every=DE,x.find=FE,x.findIndex=Qm,x.findKey=YA,x.findLast=BE,x.findLastIndex=eg,x.findLastKey=XA,x.floor=EC,x.forEach=ag,x.forEachRight=og,x.forIn=ZA,x.forInRight=QA,x.forOwn=ew,x.forOwnRight=tw,x.get=Ju,x.gt=TA,x.gte=PA,x.has=iw,x.hasIn=Yu,x.head=sg,x.identity=es,x.includes=VE,x.indexOf=BS,x.inRange=Sw,x.invoke=ow,x.isArguments=vi,x.isArray=_e,x.isArrayBuffer=SA,x.isArrayLike=Zt,x.isArrayLikeObject=yt,x.isBoolean=EA,x.isBuffer=jr,x.isDate=AA,x.isElement=wA,x.isEmpty=CA,x.isEqual=_A,x.isEqualWith=IA,x.isError=zu,x.isFinite=NA,x.isFunction=mr,x.isInteger=mg,x.isLength=el,x.isMap=gg,x.isMatch=kA,x.isMatchWith=OA,x.isNaN=LA,x.isNative=MA,x.isNil=RA,x.isNull=DA,x.isNumber=yg,x.isObject=ft,x.isObjectLike=gt,x.isPlainObject=ca,x.isRegExp=Gu,x.isSafeInteger=FA,x.isSet=xg,x.isString=tl,x.isSymbol=hs,x.isTypedArray=fn,x.isUndefined=BA,x.isWeakMap=UA,x.isWeakSet=qA,x.join=VS,x.kebabCase=Iw,x.last=Is,x.lastIndexOf=jS,x.lowerCase=Nw,x.lowerFirst=kw,x.lt=$A,x.lte=HA,x.max=AC,x.maxBy=wC,x.mean=CC,x.meanBy=_C,x.min=IC,x.minBy=NC,x.stubArray=sh,x.stubFalse=rh,x.stubObject=mC,x.stubString=gC,x.stubTrue=yC,x.multiply=kC,x.nth=WS,x.noConflict=oC,x.noop=th,x.now=Xo,x.pad=Ow,x.padEnd=Lw,x.padStart=Mw,x.parseInt=Dw,x.random=Ew,x.reduce=GE,x.reduceRight=JE,x.repeat=Rw,x.replace=Fw,x.result=dw,x.round=OC,x.runInContext=k,x.sample=XE,x.size=eA,x.snakeCase=Bw,x.some=tA,x.sortedIndex=ZS,x.sortedIndexBy=QS,x.sortedIndexOf=eE,x.sortedLastIndex=tE,x.sortedLastIndexBy=sE,x.sortedLastIndexOf=rE,x.startCase=qw,x.startsWith=$w,x.subtract=LC,x.sum=MC,x.sumBy=DC,x.template=Hw,x.times=xC,x.toFinite=gr,x.toInteger=ke,x.toLength=vg,x.toLower=Vw,x.toNumber=Ns,x.toSafeInteger=VA,x.toString=Ye,x.toUpper=jw,x.trim=Ww,x.trimEnd=Kw,x.trimStart=zw,x.truncate=Gw,x.unescape=Jw,x.uniqueId=vC,x.upperCase=Yw,x.upperFirst=Xu,x.each=ag,x.eachRight=og,x.first=sg,eh(x,function(){var n={};return Js(x,function(o,h){Xe.call(x.prototype,h)||(n[h]=o)}),n}(),{chain:!1}),x.VERSION=t,Es(["bind","bindKey","curry","curryRight","partial","partialRight"],function(n){x[n].placeholder=x}),Es(["drop","take"],function(n,o){qe.prototype[n]=function(h){h=h===s?1:Et(ke(h),0);var d=this.__filtered__&&!o?new qe(this):this.clone();return d.__filtered__?d.__takeCount__=Dt(h,d.__takeCount__):d.__views__.push({size:Dt(h,mt),type:n+(d.__dir__<0?"Right":"")}),d},qe.prototype[n+"Right"]=function(h){return this.reverse()[n](h).reverse()}}),Es(["filter","map","takeWhile"],function(n,o){var h=o+1,d=h==Z||h==ie;qe.prototype[n]=function(g){var b=this.clone();return b.__iteratees__.push({iteratee:Pe(g,3),type:h}),b.__filtered__=b.__filtered__||d,b}}),Es(["head","last"],function(n,o){var h="take"+(o?"Right":"");qe.prototype[n]=function(){return this[h](1).value()[0]}}),Es(["initial","tail"],function(n,o){var h="drop"+(o?"":"Right");qe.prototype[n]=function(){return this.__filtered__?new qe(this):this[h](1)}}),qe.prototype.compact=function(){return this.filter(es)},qe.prototype.find=function(n){return this.filter(n).head()},qe.prototype.findLast=function(n){return this.reverse().find(n)},qe.prototype.invokeMap=Le(function(n,o){return typeof n=="function"?new qe(this):this.map(function(h){return ra(h,n,o)})}),qe.prototype.reject=function(n){return this.filter(Qo(Pe(n)))},qe.prototype.slice=function(n,o){n=ke(n);var h=this;return h.__filtered__&&(n>0||o<0)?new qe(h):(n<0?h=h.takeRight(-n):n&&(h=h.drop(n)),o!==s&&(o=ke(o),h=o<0?h.dropRight(-o):h.take(o-n)),h)},qe.prototype.takeRightWhile=function(n){return this.reverse().takeWhile(n).reverse()},qe.prototype.toArray=function(){return this.take(mt)},Js(qe.prototype,function(n,o){var h=/^(?:filter|find|map|reject)|While$/.test(o),d=/^(?:head|last)$/.test(o),g=x[d?"take"+(o=="last"?"Right":""):o],b=d||/^find/.test(o);!g||(x.prototype[o]=function(){var E=this.__wrapped__,C=d?[1]:arguments,O=E instanceof qe,V=C[0],j=O||_e(E),J=function(Be){var Ve=g.apply(x,Rr([Be],C));return d&&oe?Ve[0]:Ve};j&&h&&typeof V=="function"&&V.length!=1&&(O=j=!1);var oe=this.__chain__,ye=!!this.__actions__.length,Ee=b&&!oe,Oe=O&&!ye;if(!b&&j){E=Oe?E:new qe(this);var Ae=n.apply(E,C);return Ae.__actions__.push({func:Jo,args:[J],thisArg:s}),new ws(Ae,oe)}return Ee&&Oe?n.apply(this,C):(Ae=this.thru(J),Ee?d?Ae.value()[0]:Ae.value():Ae)})}),Es(["pop","push","shift","sort","splice","unshift"],function(n){var o=To[n],h=/^(?:push|sort|unshift)$/.test(n)?"tap":"thru",d=/^(?:pop|shift)$/.test(n);x.prototype[n]=function(){var g=arguments;if(d&&!this.__chain__){var b=this.value();return o.apply(_e(b)?b:[],g)}return this[h](function(E){return o.apply(_e(E)?E:[],g)})}}),Js(qe.prototype,function(n,o){var h=x[o];if(h){var d=h.name+"";Xe.call(on,d)||(on[d]=[]),on[d].push({name:o,func:h})}}),on[Ho(s,L).name]=[{name:"wrapper",func:s}],qe.prototype.clone=JT,qe.prototype.reverse=YT,qe.prototype.value=XT,x.prototype.at=wE,x.prototype.chain=CE,x.prototype.commit=_E,x.prototype.next=IE,x.prototype.plant=kE,x.prototype.reverse=OE,x.prototype.toJSON=x.prototype.valueOf=x.prototype.value=LE,x.prototype.first=x.prototype.head,Yn&&(x.prototype[Yn]=NE),x},Br=_T();typeof define=="function"&&typeof define.amd=="object"&&define.amd?(Ct._=Br,define(function(){return Br})):fi?((fi.exports=Br)._=Br,Qc._=Br):Ct._=Br}).call(Gn)});var rv=Ze((DD,sv)=>{sv.exports=["Arial","Verdana","Tahoma","Trebuchet MS","Times New Roman","Georgia","Garamond","Courier New","Brush Script MT"]});var{createApp:ZM}=ev(),QM=tv(),eD=rv();function rd(s){return{family:s.family,files:s.files,variants:s.variants,variant:s.variants[0]||"regular",selectors:""}}function iv(s){let t=s.toString();return t[0].toUpperCase()+t.substring(1)}window.addEventListener("load",async()=>{let s=localStorage.getItem("all-fonts"),t=await(async()=>{if(s)return JSON.parse(s);{let l=await(await fetch("/api/get-all-fonts")).json();return localStorage.setItem("all-fonts",JSON.stringify(l)),l}})(),e=ZM({template:`
       <div class="font-picker">
-        <div v-for="myFont in myFonts" class="font-picker-font">
-          <button class="font-picker-delete-button" @click="deleteFont(myFont)">
-            \u2715
-          </button>
+        <div class="font-picker-fonts">
+          <div v-for="myFont in myFonts" class="font-picker-font">
+            <button
+              class="font-picker-delete-button"
+              @click="deleteFont(myFont)">
+              \u2715
+            </button>
 
-          <label class="font-picker-font-family-label">
-            Family:
-          </label>
+            <label class="font-picker-font-family-label">
+              Family:
+            </label>
 
-          <div class="font-picker-font-family-select-container">
-            <select
-              class="font-picker-font-family-select"
-              @input="setFontFamily(myFont, $event.target.value)"
-              :value="myFont.family">
-              <option v-for="font in allFonts" :value="font.family">
-                {{ font.family }}
-              </option>
-            </select>
-          </div>
+            <div class="font-picker-font-family-select-container">
+              <select
+                class="font-picker-font-family-select"
+                @input="setFontFamily(myFont, $event.target.value)"
+                :value="myFont.family">
+                <option v-for="font in allFonts" :value="font.family">
+                  {{ font.family }}
+                </option>
+              </select>
+            </div>
 
-          <label class="font-picker-font-variants-label">
-            Variant:
-          </label>
+            <label class="font-picker-font-variants-label">
+              Variant:
+            </label>
 
-          <div class="font-picker-font-variants-select-container">
-            <select
-              class="font-picker-font-variants-select"
-              @input="setFontVariant(myFont, $event.target.value)"
-              :value="myFont.variant || myFont.variants[0]">
-              <option v-for="variant in myFont.variants" :value="variant">
-                {{ variant }}
-              </option>
-            </select>
-          </div>
+            <div class="font-picker-font-variants-select-container">
+              <select
+                class="font-picker-font-variants-select"
+                @input="setFontVariant(myFont, $event.target.value)"
+                :value="myFont.variant || myFont.variants[0]">
+                <option v-for="variant in myFont.variants" :value="variant">
+                  {{ variant }}
+                </option>
+              </select>
+            </div>
 
-          <label class="font-picker-font-selectors-label">
-            Selectors:
-          </label>
+            <label class="font-picker-font-selectors-label">
+              Selectors:
+            </label>
 
-          <div class="font-picker-font-selectors-input-container">
-            <input
-              class="font-picker-font-selectors-input"
-              type="text"
-              :value="myFont.selectors"
-              @input="setFontSelectors(myFont, $event.target.value)"
-              placeholder="h1, .some-class, #some-id">
+            <div class="font-picker-font-selectors-input-container">
+              <input
+                class="font-picker-font-selectors-input"
+                type="text"
+                :value="myFont.selectors"
+                @input="setFontSelectors(myFont, $event.target.value)"
+                placeholder="h1, .some-class, #some-id">
+            </div>
           </div>
         </div>
 
-        <br>
-
-        <button @click="addFont">Add font</button>
+        <div class="font-picker-add-font-button-container">
+          <button
+            class="font-picker-add-font-button"
+            @click="addFont">
+            Add font
+          </button>
+        </div>
       </div>
     `,data(){return{extraStylesElement:null,myFonts:[],allFonts:t}},methods:{addFont(){let a=this;a.myFonts.push(rd(a.allFonts[0])),a.updateStyles(),a.save()},setFontFamily(a,l){let c=this,u=c.myFonts.indexOf(a),f=c.myFonts[u];c.myFonts[u]=rd(c.allFonts.find(p=>p.family===l)),c.myFonts[u].selectors=f.selectors,c.updateStyles(),c.save()},setFontSelectors(a,l){let c=this;a.selectors=l,c.updateStyles(),c.save()},setFontVariant(a,l){let c=this;a.variant=l,c.updateStyles(),c.save()},deleteFont(a){let l=this;l.myFonts.splice(l.myFonts.indexOf(a),1),l.updateStyles(),l.save()},updateStyles:QM.debounce(function(){let a=this,l=a.myFonts.map(u=>eD.indexOf(u.family)>-1?null:`
               @font-face {
@@ -155,6 +163,10 @@ function print() { __p += __j.call(arguments, '') }
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
     }
 
+    .font-picker-fonts {
+      margin-bottom: 1.5rem;
+    }
+
     .font-picker-font {
       margin-bottom: 4px;
       padding: 1.5rem;
@@ -200,5 +212,9 @@ function print() { __p += __j.call(arguments, '') }
     input.font-picker-font-selectors-input {
       width: 100%;
       box-sizing: border-box;
+    }
+
+    .font-picker-add-font-button-container {
+      text-align: right;
     }
   `;let i=document.createElement("div");i.id="font-picker-container",document.body.appendChild(i),e.mount(i)});})();
