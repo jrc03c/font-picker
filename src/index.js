@@ -63,6 +63,10 @@ window.addEventListener("load", async () => {
       margin-bottom: 4px;
     }
 
+    .font-picker-header button {
+      color: white;
+    }
+
     button.font-picker-collapse-button,
     button.font-picker-expand-button,
     button.font-picker-close-button {
@@ -85,7 +89,6 @@ window.addEventListener("load", async () => {
       align-content: center;
       align-items: center;
       font-size: calc(1rem / 0.85) !important;
-      color: white;
     }
 
     button.font-picker-collapse-button:hover,
@@ -104,16 +107,31 @@ window.addEventListener("load", async () => {
 
     .font-picker-font {
       margin-bottom: 4px;
+    }
+
+    .font-picker-font-header {
+      padding: 0.75rem;
+      background-color: rgb(225, 225, 225);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+    }
+
+    .font-picker-font-header.is-expanded {
+      border-radius: 4px 4px 0 0 !important;
+    }
+
+    .font-picker-font-body {
+      margin-bottom: 4px;
       padding: 1.5rem;
       border-radius: 4px;
       background-color: rgb(245, 245, 245);
-      position: relative;
     }
 
     button.font-picker-delete-button {
-      position: absolute;
-      top: calc(0.375rem * 0.85);
-      right: calc(0.375rem * 0.85);
       margin: 0;
       padding: 0;
       border: 0 !important;

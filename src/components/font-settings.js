@@ -24,56 +24,78 @@ module.exports = {
 
   template: /* html */ `
     <div class="font-picker-font">
-      <button
-        class="font-picker-delete-button"
-        @click="deleteFont(font)">
-        ✕
-      </button>
+      <div class="font-picker-font-header" :class="{'is-expanded': isExpanded}">
+        <div class="font-picker-font-header-left">
+          {{ font.family }} ({{ font.variant }})
+        </div>
 
-      <label class="font-picker-font-family-label">
-        Family:
-      </label>
+        <div class="font-picker-font-header-right">
+          <button
+            :class="isExpanded ? 'font-picker-collapse-button' : 'font-picker-expand-button'"
+            @click="isExpanded = !isExpanded">
+            {{ isExpanded ? "−" : "+" }}
+          </button>
 
-      <div class="font-picker-font-family-select-container">
-        <select
-          class="font-picker-font-family-select"
-          @input="setFontFamily(font, $event.target.value)"
-          :value="font.family">
-          <option v-for="font in allFonts" :value="font.family">
-            {{ font.family }}
-          </option>
-        </select>
+          <button
+            class="font-picker-delete-button"
+            @click="deleteFont(font)">
+            ✕
+          </button>
+        </div>
       </div>
 
-      <label class="font-picker-font-variants-label">
-        Variant:
-      </label>
+      <div v-if="isExpanded" class="font-picker-font-body">
+        <label class="font-picker-font-family-label">
+          Family:
+        </label>
 
-      <div class="font-picker-font-variants-select-container">
-        <select
-          class="font-picker-font-variants-select"
-          @input="setFontVariant(font, $event.target.value)"
-          :value="font.variant || font.variants[0]">
-          <option v-for="variant in font.variants" :value="variant">
-            {{ variant }}
-          </option>
-        </select>
-      </div>
+        <div class="font-picker-font-family-select-container">
+          <select
+            class="font-picker-font-family-select"
+            @input="setFontFamily(font, $event.target.value)"
+            :value="font.family">
+            <option v-for="font in allFonts" :value="font.family">
+              {{ font.family }}
+            </option>
+          </select>
+        </div>
 
-      <label class="font-picker-font-selectors-label">
-        Selectors:
-      </label>
+        <label class="font-picker-font-variants-label">
+          Variant:
+        </label>
 
-      <div class="font-picker-font-selectors-input-container">
-        <input
-          class="font-picker-font-selectors-input"
-          type="text"
-          :value="font.selectors"
-          @input="$emit('set-font-selectors', {font: font, selectors: $event.target.value})"
-          placeholder="h1, .some-class, #some-id">
+        <div class="font-picker-font-variants-select-container">
+          <select
+            class="font-picker-font-variants-select"
+            @input="setFontVariant(font, $event.target.value)"
+            :value="font.variant || font.variants[0]">
+            <option v-for="variant in font.variants" :value="variant">
+              {{ variant }}
+            </option>
+          </select>
+        </div>
+
+        <label class="font-picker-font-selectors-label">
+          Selectors:
+        </label>
+
+        <div class="font-picker-font-selectors-input-container">
+          <input
+            class="font-picker-font-selectors-input"
+            type="text"
+            :value="font.selectors"
+            @input="$emit('set-font-selectors', {font: font, selectors: $event.target.value})"
+            placeholder="h1, .some-class, #some-id">
+        </div>
       </div>
     </div>
   `,
+
+  data() {
+    return {
+      isExpanded: true,
+    }
+  },
 
   methods: {
     deleteFont(font) {
