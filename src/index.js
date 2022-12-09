@@ -179,7 +179,7 @@ window.addEventListener("load", async () => {
             {{ isExpanded ? "−" : "+" }}
           </button>
 
-          <button class="font-picker-close-button">
+          <button class="font-picker-close-button" @click="close">
             ✕
           </button>
         </div>
@@ -327,6 +327,10 @@ window.addEventListener("load", async () => {
         const self = this
         localStorage.setItem("my-fonts", JSON.stringify(self.myFonts))
       },
+
+      close() {
+        app.unmount()
+      },
     },
 
     mounted() {
@@ -345,7 +349,8 @@ window.addEventListener("load", async () => {
       self.updateStyles()
     },
 
-    unmounted() {
+    beforeUnmount() {
+      const self = this
       document.body.removeChild(style)
       document.body.removeChild(container)
       document.body.removeChild(self.extraStylesElement)

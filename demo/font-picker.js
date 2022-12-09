@@ -268,7 +268,7 @@ function print() { __p += __j.call(arguments, '') }
             {{ isExpanded ? "\u2212" : "+" }}
           </button>
 
-          <button class="font-picker-close-button">
+          <button class="font-picker-close-button" @click="close">
             \u2715
           </button>
         </div>
@@ -310,4 +310,4 @@ function print() { __p += __j.call(arguments, '') }
 
 `);c.extraStylesElement.innerHTML=u+`
 
-`+f},500),save(){let c=this;localStorage.setItem("my-fonts",JSON.stringify(c.myFonts))}},mounted(){let c=this,u=localStorage.getItem("my-fonts");u?c.myFonts=JSON.parse(u):c.myFonts.push(rd(c.allFonts[0]));let f=document.createElement("style");document.body.appendChild(f),c.extraStylesElement=f,c.updateStyles()},unmounted(){document.body.removeChild(a),document.body.removeChild(l),document.body.removeChild(self.extraStylesElement)}}),a=document.createElement("style");document.body.appendChild(a),a.innerHTML=s;let l=document.createElement("div");l.id="font-picker-container",document.body.appendChild(l),i.mount(l)});})();
+`+f},500),save(){let c=this;localStorage.setItem("my-fonts",JSON.stringify(c.myFonts))},close(){i.unmount()}},mounted(){let c=this,u=localStorage.getItem("my-fonts");u?c.myFonts=JSON.parse(u):c.myFonts.push(rd(c.allFonts[0]));let f=document.createElement("style");document.body.appendChild(f),c.extraStylesElement=f,c.updateStyles()},beforeUnmount(){let c=this;document.body.removeChild(a),document.body.removeChild(l),document.body.removeChild(c.extraStylesElement)}}),a=document.createElement("style");document.body.appendChild(a),a.innerHTML=s;let l=document.createElement("div");l.id="font-picker-container",document.body.appendChild(l),i.mount(l)});})();
