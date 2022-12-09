@@ -1,36 +1,26 @@
 const { createApp } = require("vue")
 const lodash = require("lodash")
 
-function createFont() {
+function createMyFont(font) {
   return {
-    family: "IBM Plex Sans",
+    family: font.family,
+    variants: font.variants,
+    variant: font.variants[0] || "regular",
     selectors: "",
-    variants: [],
-    selectedVariant: null,
   }
-}
-
-function sort(x, fn) {
-  if (!fn) {
-    fn = (a, b) => (a < b ? -1 : 1)
-  }
-
-  const out = x.slice()
-  out.sort(fn)
-  return out
 }
 
 window.addEventListener("load", async () => {
-  const cachedFontData = localStorage.getItem("font-data")
+  const allFontsCache = localStorage.getItem("all-fonts")
 
-  const fontData = await (async () => {
-    if (cachedFontData) {
-      return JSON.parse(cachedFontData)
+  const allFonts = await (async () => {
+    if (allFontsCache) {
+      return JSON.parse(allFontsCache)
     } else {
-      const response = await fetch("/api/get-font-list")
-      const fontData = await response.json()
-      localStorage.setItem("font-data", JSON.stringify(fontData))
-      return fontData
+      const response = await fetch("/api/get-all-fonts")
+      const allFonts = await response.json()
+      localStorage.setItem("all-fonts", JSON.stringify(allFonts))
+      return allFonts
     }
   })()
 
@@ -51,8 +41,23 @@ window.addEventListener("load", async () => {
               class="font-picker-font-family-select"
               @input="setFontFamily(myFont, $event.target.value)"
               :value="myFont.family">
-              <option v-for="font in sortedFonts" :value="font.family">
+              <option v-for="font in allFonts" :value="font.family">
                 {{ font.family }}
+              </option>
+            </select>
+          </div>
+
+          <label class="font-picker-font-variants-label">
+            Variant:
+          </label>
+
+          <div class="font-picker-font-variants-select-container">
+            <select
+              class="font-picker-font-variants-select"
+              @input="setFontVariant(myFont, $event.target.value)"
+              :value="myFont.variant || myFont.variants[0]">
+              <option v-for="variant in myFont.variants" :value="variant">
+                {{ variant }}
               </option>
             </select>
           </div>
@@ -81,15 +86,14 @@ window.addEventListener("load", async () => {
       return {
         extraStylesElement: null,
         myFonts: [],
-        fontData,
-        sortedFonts: [],
+        allFonts,
       }
     },
 
     methods: {
       addFont() {
         const self = this
-        self.myFonts.push(createFont())
+        self.myFonts.push(createMyFont(self.allFonts[0]))
         self.updateStyles()
         self.save()
       },
@@ -117,44 +121,7 @@ window.addEventListener("load", async () => {
 
       updateStyles() {
         const self = this
-
-        let interval = setInterval(() => {
-          if (
-            !self.fontData ||
-            !self.fontData.items ||
-            !self.fontData.items.find
-          ) {
-            return
-          }
-
-          clearInterval(interval)
-
-          const importStatements = self.myFonts
-            .map(font => {
-              const itemData = self.fontData.items.find(
-                other => other.family === font.family
-              )
-
-              return Object.keys(itemData.files)
-                .map(
-                  file =>
-                    `@font-face { font-family: "${font.family}"; src: url("${itemData.files[file]}"); }`
-                )
-                .join("\n")
-            })
-            .join("\n")
-
-          const rules = self.myFonts
-            .map(font => {
-              return font.selectors.trim().length === 0
-                ? null
-                : `${font.selectors} { font-family: "${font.family}" !important; }`
-            })
-            .filter(rule => !!rule)
-            .join("\n")
-
-          self.extraStylesElement.innerHTML = importStatements + "\n" + rules
-        }, 10)
+        console.log("updating styles with my fonts:", self.myFonts)
       },
 
       save() {
@@ -170,15 +137,8 @@ window.addEventListener("load", async () => {
       if (myFonts) {
         self.myFonts = JSON.parse(myFonts)
       } else {
-        self.myFonts.push(createFont())
+        self.myFonts.push(createMyFont(self.allFonts[0]))
       }
-
-      self.sortedFonts = self.fontData.items.map(item => {
-        const out = createFont()
-        out.family = item.family
-        out.variants = item.variants.slice()
-        return out
-      })
 
       const extraStylesElement = document.createElement("style")
       document.body.appendChild(extraStylesElement)
@@ -219,6 +179,11 @@ window.addEventListener("load", async () => {
     #font-picker-container select,
     #font-picker-container option {
       cursor: pointer;
+    }
+
+    #font-picker-container label {
+      display: block;
+      margin-bottom: 0.375rem;
     }
 
     #font-picker-container {
@@ -267,14 +232,9 @@ window.addEventListener("load", async () => {
     button.font-picker-delete-button:hover {
       color: red;
     }
-
-    label.font-picker-font-family-label,
-    label.font-picker-font-selectors-label {
-      display: block;
-      margin-bottom: 0.375rem;
-    }
     
-    .font-picker-font-family-select-container {
+    .font-picker-font-family-select-container,
+    .font-picker-font-variants-select-container {
       margin-bottom: 0.75rem;
     }
 

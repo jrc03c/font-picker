@@ -16,8 +16,8 @@ function build() {
     }
 
     const srcFile = path.join(__dirname, "src", "index.js")
-    const outFile1 = path.join(distDir, "google-font-picker.js")
-    const outFile2 = path.join(__dirname, "demo", "google-font-picker.js")
+    const outFile1 = path.join(distDir, "font-picker.js")
+    const outFile2 = path.join(__dirname, "demo", "font-picker.js")
 
     execSync(
       `npx esbuild "${srcFile}" --bundle --outfile="${outFile1}" --minify`,
