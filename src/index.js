@@ -40,14 +40,59 @@ window.addEventListener("load", async () => {
       position: fixed;
       bottom: 1.5rem;
       right: 1.5rem;
-      padding: 1.5rem;
+      padding: 0;
       background-color: rgb(235, 235, 235);
       border-radius: 4px;
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+      min-width: 256px;
     }
 
-    .font-picker-fonts {
-      margin-bottom: 1.5rem;
+    .font-picker-header {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+      background-color: rgb(51, 51, 51);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 4px 4px 0 0 !important;
+      margin-bottom: 4px;
+    }
+
+    button.font-picker-collapse-button,
+    button.font-picker-expand-button,
+    button.font-picker-close-button {
+      margin: 0;
+      padding: 0;
+      border: 0 !important;
+      border-radius: 100% !important;
+      width: calc(1.5rem * 0.85);
+      min-width: calc(1.5rem * 0.85);
+      max-width: calc(1.5rem * 0.85);
+      height: calc(1.5rem * 0.85);
+      min-height: calc(1.5rem * 0.85);
+      max-height: calc(1.5rem * 0.85);
+      background-color: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      font-size: calc(1rem / 0.85) !important;
+      color: white;
+    }
+
+    button.font-picker-collapse-button:hover,
+    button.font-picker-expand-button:hover {
+      color: hsl(202.5deg, 100%, 75%);
+    }
+    
+    button.font-picker-close-button:hover {
+      color: red;
     }
 
     .font-picker-font {
@@ -100,11 +145,49 @@ window.addEventListener("load", async () => {
     .font-picker-add-font-button-container {
       text-align: right;
     }
+
+    button.font-picker-add-font-button {
+      width: 100%;
+      background-color: rgb(51, 51, 51);
+      color: white;
+      font-weight: bold;
+      border: 0 !important;
+      border-radius: 0 0 4px 4px !important;
+      padding: 0.75rem !important; 
+    }
+
+    button.font-picker-add-font-button:hover {
+      background-color: rgb(61, 61, 61);
+    }
+
+    button.font-picker-add-font-button:active {
+      background-color: rgb(31, 31, 31);
+    }
   `
 
   const html = /* html */ `
     <div class="font-picker">
-      <div v-if="myFonts && myFonts.length > 0" class="font-picker-fonts">
+      <div class="font-picker-header">
+        <div class="font-picker-header-left">
+          <b>Font picker</b>
+        </div>
+
+        <div class="font-picker-header-right">
+          <button
+            :class="isExpanded ? 'font-picker-collapse-button' : 'font-picker-expand-button'"
+            @click="isExpanded = !isExpanded">
+            {{ isExpanded ? "−" : "+" }}
+          </button>
+
+          <button class="font-picker-close-button">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <div
+        v-if="isExpanded && myFonts && myFonts.length > 0"
+        class="font-picker-fonts">
         <font-settings
           v-for="font in myFonts"
           :all-fonts="allFonts"
@@ -151,6 +234,7 @@ window.addEventListener("load", async () => {
         extraStylesElement: null,
         myFonts: [],
         allFonts,
+        isExpanded: true,
       }
     },
 
