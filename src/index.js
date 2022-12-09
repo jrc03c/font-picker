@@ -107,7 +107,14 @@ window.addEventListener("load", async () => {
 
       setFontFamily(font, family) {
         const self = this
-        font.family = family
+        const index = self.myFonts.indexOf(font)
+        const oldFont = self.myFonts[index]
+
+        self.myFonts[index] = createMyFont(
+          self.allFonts.find(f => f.family === family)
+        )
+
+        self.myFonts[index].selectors = oldFont.selectors
         self.updateStyles()
         self.save()
       },
@@ -115,6 +122,13 @@ window.addEventListener("load", async () => {
       setFontSelectors(font, selectors) {
         const self = this
         font.selectors = selectors
+        self.updateStyles()
+        self.save()
+      },
+
+      setFontVariant(font, variant) {
+        const self = this
+        font.variant = variant
         self.updateStyles()
         self.save()
       },
