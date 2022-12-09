@@ -136,6 +136,8 @@ function print() { __p += __j.call(arguments, '') }
       border-radius: 4px;
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
       min-width: 256px;
+      max-height: calc(100vh - 3rem);
+      overflow-y: hidden;
     }
 
     .font-picker-header {
@@ -184,6 +186,11 @@ function print() { __p += __j.call(arguments, '') }
     
     button.font-picker-close-button:hover {
       color: red;
+    }
+
+    .font-picker-fonts {
+      max-height: calc(calc(100vh - 8rem) - 8px);
+      overflow-y: auto;
     }
 
     .font-picker-font {
