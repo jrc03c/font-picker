@@ -1,13 +1,20 @@
 const { createApp } = require("vue")
 const lodash = require("lodash")
+const webSafeFonts = require("../api/web-safe-fonts")
 
 function createMyFont(font) {
   return {
     family: font.family,
+    files: font.files,
     variants: font.variants,
     variant: font.variants[0] || "regular",
     selectors: "",
   }
+}
+
+function capitalize(x) {
+  let out = x.toString()
+  return out[0].toUpperCase() + out.substring(1)
 }
 
 window.addEventListener("load", async () => {
@@ -105,12 +112,12 @@ window.addEventListener("load", async () => {
         self.save()
       },
 
-      setFontSelectors: lodash.debounce(function (font, selectors) {
+      setFontSelectors(font, selectors) {
         const self = this
         font.selectors = selectors
         self.updateStyles()
         self.save()
-      }, 500),
+      },
 
       deleteFont(font) {
         const self = this
@@ -119,10 +126,44 @@ window.addEventListener("load", async () => {
         self.save()
       },
 
-      updateStyles() {
+      updateStyles: lodash.debounce(function () {
         const self = this
-        console.log("updating styles with my fonts:", self.myFonts)
-      },
+
+        const faces = self.myFonts
+          .map(font => {
+            if (webSafeFonts.indexOf(font.family) > -1) {
+              return null
+            }
+
+            return /* css */ `
+              @font-face {
+                font-family: "${font.family} ${capitalize(font.variant)}";
+                src: url("${font.files[font.variant]}");
+              }
+            `
+          })
+          .filter(face => !!face)
+          .join("\n")
+
+        const rules = self.myFonts
+          .map(font => {
+            if (font.selectors.trim().length === 0) {
+              return null
+            }
+
+            const family = `${font.family} ${capitalize(font.variant)}`
+
+            return /* css */ `
+              ${font.selectors} {
+                font-family: "${family}" !important;
+              }
+            `
+          })
+          .filter(rule => !!rule)
+          .join("\n\n")
+
+        self.extraStylesElement.innerHTML = faces + "\n\n" + rules
+      }, 500),
 
       save() {
         const self = this

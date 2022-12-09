@@ -1,9 +1,11 @@
 const fetch = require("node-fetch")
 const process = require("process")
+const webSafeFonts = require("./web-safe-fonts")
 
 function createFont(family, data) {
   return {
     family,
+    files: data && data.files ? data.files : [],
     variants:
       data && data.variants
         ? data.variants
@@ -27,18 +29,6 @@ function sort(x, fn) {
   out.sort(fn)
   return out
 }
-
-const webSafeFonts = [
-  "Arial",
-  "Verdana",
-  "Tahoma",
-  "Trebuchet MS",
-  "Times New Roman",
-  "Georgia",
-  "Garamond",
-  "Courier New",
-  "Brush Script MT",
-]
 
 module.exports = async function getAllFonts(request, response) {
   try {
