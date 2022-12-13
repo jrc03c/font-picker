@@ -1,6 +1,4 @@
-const createVueComponentWithCSS = require("vue-component-with-css")
-
-module.exports = createVueComponentWithCSS({
+module.exports = {
   name: "font-settings",
 
   emits: [
@@ -26,7 +24,10 @@ module.exports = createVueComponentWithCSS({
 
   template: /* html */ `
     <div class="font-picker-font">
-      <div class="font-picker-font-header" :class="{'is-expanded': isExpanded}">
+      <div
+        class="font-picker-font-header"
+        :class="{'is-expanded': isExpanded}"
+        @click="!isExpanded ? isExpanded = true : () => {}">
         <div class="font-picker-font-header-left">
           {{ font.family }} ({{ font.variant }})
         </div>
@@ -34,13 +35,13 @@ module.exports = createVueComponentWithCSS({
         <div class="font-picker-font-header-right">
           <button
             :class="isExpanded ? 'font-picker-collapse-button' : 'font-picker-expand-button'"
-            @click="isExpanded = !isExpanded">
+            @click.stop="isExpanded = !isExpanded">
             {{ isExpanded ? "−" : "+" }}
           </button>
 
           <button
             class="font-picker-delete-button"
-            @click="deleteFont(font)">
+            @click.stop="deleteFont(font)">
             ✕
           </button>
         </div>
@@ -96,74 +97,6 @@ module.exports = createVueComponentWithCSS({
   data() {
     return {
       isExpanded: true,
-
-      css: /* css */ `
-        .font-picker-font {
-          margin-bottom: 4px;
-        }
-    
-        .font-picker-font-header {
-          padding: 0.75rem;
-          background-color: rgb(225, 225, 225);
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          justify-content: space-between;
-          align-content: center;
-          align-items: center;
-        }
-    
-        .font-picker-font-header.is-expanded {
-          border-radius: 4px 4px 0 0 !important;
-        }
-    
-        .font-picker-font-body {
-          margin-bottom: 4px;
-          padding: 1.5rem;
-          border-radius: 4px;
-          background-color: rgb(245, 245, 245);
-        }
-    
-        button.font-picker-delete-button {
-          margin: 0;
-          padding: 0;
-          border: 0 !important;
-          border-radius: 100% !important;
-          width: calc(1.5rem * 0.85);
-          min-width: calc(1.5rem * 0.85);
-          max-width: calc(1.5rem * 0.85);
-          height: calc(1.5rem * 0.85);
-          min-height: calc(1.5rem * 0.85);
-          max-height: calc(1.5rem * 0.85);
-          background-color: transparent;
-          cursor: pointer;
-          display: inline-flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-          justify-content: center;
-          align-content: center;
-          align-items: center;
-          font-size: calc(1rem / 0.85) !important;
-        }
-    
-        button.font-picker-delete-button:hover {
-          color: red;
-        }
-    
-        .font-picker-font-family-select-container,
-        .font-picker-font-variants-select-container {
-          margin-bottom: 0.75rem;
-        }
-    
-        input.font-picker-font-selectors-input {
-          width: 100%;
-          box-sizing: border-box;
-        }
-    
-        .font-picker-add-font-button-container {
-          text-align: right;
-        }
-      `,
     }
   },
 
@@ -188,4 +121,4 @@ module.exports = createVueComponentWithCSS({
       self.$emit("set-font-selectors", { font, selectors })
     },
   },
-})
+}
