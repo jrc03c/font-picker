@@ -5,9 +5,42 @@ const createMyFont = require("./create-my-font")
 const createVueComponentWithCSS = require("vue-component-with-css")
 const FontSettingsBoxComponent = require("./components/font-settings-box")
 const lodash = require("lodash")
-const webSafeFonts = require("../api/web-safe-fonts")
+
+function createFont(family, data) {
+  return {
+    family,
+    files: data && data.files ? data.files : [],
+    variants:
+      data && data.variants
+        ? data.variants
+        : ["regular", "bold", "regular-italic", "bold-italic"],
+  }
+}
+
+function sort(x, fn) {
+  if (!fn) {
+    fn = (a, b) => (a < b ? -1 : 1)
+  }
+
+  const out = (() => {
+    try {
+      return structuredClone(x)
+    } catch (e) {
+      return x.slice()
+    }
+  })()
+
+  out.sort(fn)
+  return out
+}
 
 window.addEventListener("load", async () => {
+  if (typeof GOOGLE_WEBFONTS_API_KEY === "undefined") {
+    throw new Error(
+      "You must define GOOGLE_WEBFONTS_API_KEY for the font picker to work!"
+    )
+  }
+
   const css = /* css */ `
     #font-picker-container *,
     #font-picker-container button,
@@ -50,6 +83,19 @@ window.addEventListener("load", async () => {
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
       max-height: calc(100vh - 3rem);
       overflow-y: hidden;
+    }
+
+    .font-picker-error-notification {
+      padding: 1.5rem;
+      background-color: hsl(0deg, 100%, 95%);
+      color: hsl(0deg, 100%, 40%);
+      border-radius: 4px;
+      max-width: 256px;
+      border: 2px solid hsl(0deg, 100%, 40%);
+    }
+
+    .font-picker-error-notification a {
+      color: red;
     }
 
     .font-picker-header {
@@ -132,7 +178,14 @@ window.addEventListener("load", async () => {
   `
 
   const html = /* html */ `
+    <div v-if="error" class="font-picker-error-notification">
+      <div><b>Font picker error:</b></div>
+      <br>
+      <div>{{ error }} Click <a href="">here</a> to start over.</div>
+    </div>
+
     <collapsible-box
+      v-else
       title="Font picker"
       class="font-picker"
       :class="{'is-expanded': isExpanded}"
@@ -162,18 +215,17 @@ window.addEventListener("load", async () => {
     </collapsible-box>
   `
 
-  const allFontsCache = localStorage.getItem("all-fonts")
-
-  const allFonts = await (async () => {
-    if (allFontsCache) {
-      return JSON.parse(allFontsCache)
-    } else {
-      const response = await fetch("/api/get-all-fonts")
-      const allFonts = await response.json()
-      localStorage.setItem("all-fonts", JSON.stringify(allFonts))
-      return allFonts
-    }
-  })()
+  const webSafeFonts = [
+    "Arial",
+    "Verdana",
+    "Tahoma",
+    "Trebuchet MS",
+    "Times New Roman",
+    "Georgia",
+    "Garamond",
+    "Courier New",
+    "Brush Script MT",
+  ]
 
   const app = createApp(
     createVueComponentWithCSS({
@@ -188,9 +240,10 @@ window.addEventListener("load", async () => {
         return {
           extraStylesElement: null,
           myFonts: [],
-          allFonts,
+          allFonts: [],
           css,
           isExpanded: true,
+          error: "",
         }
       },
 
@@ -289,15 +342,54 @@ window.addEventListener("load", async () => {
         },
       },
 
-      mounted() {
+      async mounted() {
         const self = this
-        const myFonts = localStorage.getItem("my-fonts")
+        const allFontsCache = localStorage.getItem("all-fonts")
 
-        if (myFonts) {
-          self.myFonts = JSON.parse(myFonts)
+        if (allFontsCache) {
+          self.allFonts = JSON.parse(allFontsCache)
         } else {
-          self.myFonts.push(createMyFont(self.allFonts[0]))
+          const response = await fetch(
+            `https://www.googleapis.com/webfonts/v1/webfonts?key=${GOOGLE_WEBFONTS_API_KEY}`
+          )
+
+          const fontData = await response.json()
+
+          if (response.status !== 200 || !fontData) {
+            localStorage.clear()
+
+            self.error =
+              "An error occurred while trying to fetch the list of fonts from Google! Maybe your API key is invalid?"
+
+            return
+          }
+
+          const allFonts = sort(
+            fontData.items
+              .map(item => {
+                return createFont(item.family, item)
+              })
+              .concat(
+                webSafeFonts.map(family => {
+                  return createFont(family)
+                })
+              ),
+            (a, b) => (a.family.toLowerCase() < b.family.toLowerCase() ? -1 : 1)
+          )
+
+          localStorage.setItem("all-fonts", JSON.stringify(allFonts))
+          self.allFonts = allFonts
         }
+
+        self.myFonts = (() => {
+          const myFonts = localStorage.getItem("my-fonts")
+
+          if (myFonts) {
+            return JSON.parse(myFonts)
+          } else {
+            return [createMyFont(self.allFonts[0])]
+          }
+        })()
 
         const extraStylesElement = document.createElement("style")
         document.body.appendChild(extraStylesElement)

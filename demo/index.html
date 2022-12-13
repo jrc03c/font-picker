@@ -46,6 +46,19 @@
       eu justo vel, maximus consectetur enim.
     </p>
 
+    <script>
+      const GOOGLE_WEBFONTS_API_KEY = (() => {
+        const apiKey = localStorage.getItem("api-key")
+
+        if (apiKey) {
+          return apiKey
+        } else {
+          const response = prompt("Google Fonts Developer API key:")
+          localStorage.setItem("api-key", response)
+          return response
+        }
+      })()
+    </script>
     <script src="font-picker.js"></script>
   </body>
 </html>

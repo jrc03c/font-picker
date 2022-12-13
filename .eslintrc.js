@@ -12,4 +12,7 @@ module.exports = {
   },
   plugins: ["vue"],
   rules: {},
+  globals: {
+    GOOGLE_WEBFONTS_API_KEY: "readonly",
+  },
 }
