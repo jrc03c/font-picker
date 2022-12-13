@@ -11,7 +11,7 @@ This tool makes it easy to test out a bunch of different fonts on a web page wit
 Using a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@jrc03c/font-picker/dist/font-picker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jrc03c/font-picker@latest/dist/font-picker.js"></script>
 ```
 
 Or using `npm`:
