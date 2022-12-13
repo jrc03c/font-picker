@@ -26,12 +26,9 @@ function build() {
       }
     )
 
-    execSync(
-      `npx esbuild "${srcFile}" --bundle --outfile="${outFile2}" --minify`,
-      {
-        encoding: "utf8",
-      }
-    )
+    execSync(`cp "${outFile1}" "${outFile2}"`, {
+      encoding: "utf8",
+    })
 
     console.log("\nBuilt! 🎉\n")
   } catch (e) {
