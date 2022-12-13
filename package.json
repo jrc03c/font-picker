@@ -20,6 +20,7 @@
     "node-fetch": "^2.6.7"
   },
   "dependencies": {
+    "font-picker": "github:jrc03c/font-picker",
     "lodash": "^4.17.21",
     "vue": "^3.2.45",
     "vue-component-with-css": "github:jrc03c/vue-component-with-css"
