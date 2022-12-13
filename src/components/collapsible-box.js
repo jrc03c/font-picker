@@ -11,15 +11,20 @@ const css = /* css */ `
     background-color: rgb(200, 200, 200);
     cursor: pointer;
     border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
   }
 
-  .font-picker-collapsible-box.is-expanded
+  .font-picker-collapsible-box.is-expanded >
   .font-picker-collapsible-box-header {
     border-radius: 4px 4px 0 0;
   }
 
   .font-picker-collapsible-box-body {
-    padding: 0 1.5rem;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -29,10 +34,9 @@ const css = /* css */ `
       opacity 0.15s ease-in-out;
   }
 
-  .font-picker-collapsible-box.is-expanded
+  .font-picker-collapsible-box.is-expanded >
   .font-picker-collapsible-box-body {
-    padding: 1.5rem;
-    max-height: 285px;
+    max-height: 100vh;
     overflow: auto;
     opacity: 1;
     transition:
@@ -45,16 +49,16 @@ const css = /* css */ `
 const template = /* html */ `
   <div
     class="font-picker-collapsible-box"
-    :class="computedClasses">
+    :class="{'is-expanded': isExpanded}">
     <div
       class="font-picker-collapsible-box-header"
-      @click="isExpanded = !isExpanded">
+      @click="toggleIsExpanded">
       <div>
         {{ title }}
       </div>
 
       <div>
-
+        (control buttons)
       </div>
     </div>
 
@@ -65,6 +69,8 @@ const template = /* html */ `
 `
 
 module.exports = createVueComponentWithCSS({
+  emits: ["expand", "collapse"],
+
   props: {
     title: {
       type: String,
@@ -82,15 +88,11 @@ module.exports = createVueComponentWithCSS({
     }
   },
 
-  computed: {
-    computedClasses() {
+  methods: {
+    toggleIsExpanded() {
       const self = this
-
-      const out = {
-        "is-expanded": self.isExpanded,
-      }
-
-      return out
+      self.isExpanded = !self.isExpanded
+      self.$emit(self.isExpanded ? "expand" : "collapse")
     },
   },
 })

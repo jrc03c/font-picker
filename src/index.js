@@ -3,55 +3,11 @@ const { createApp } = require("vue")
 const CollapsibleBoxComponent = require("./components/collapsible-box")
 const createMyFont = require("./create-my-font")
 const createVueComponentWithCSS = require("vue-component-with-css")
-const FontSettingsComponent = require("./components/font-settings")
+const FontSettingsBoxComponent = require("./components/font-settings-box")
 const lodash = require("lodash")
 const webSafeFonts = require("../api/web-safe-fonts")
 
 window.addEventListener("load", async () => {
-  // const html = /* html */ `
-  //   <div class="font-picker">
-  //     <div class="font-picker-header">
-  //       <div class="font-picker-header-left">
-  //         <b>Font picker</b>
-  //       </div>
-
-  //       <div class="font-picker-header-right">
-  //         <button
-  //           :class="isExpanded ? 'font-picker-collapse-button' : 'font-picker-expand-button'"
-  //           @click="isExpanded = !isExpanded">
-  //           {{ isExpanded ? "−" : "+" }}
-  //         </button>
-
-  //         <button class="font-picker-close-button" @click="close">
-  //           ✕
-  //         </button>
-  //       </div>
-  //     </div>
-
-  //     <div
-  //       v-if="isExpanded && myFonts && myFonts.length > 0"
-  //       class="font-picker-fonts">
-  //       <font-settings
-  //         v-for="font in myFonts"
-  //         :all-fonts="allFonts"
-  //         :font="font"
-  //         @delete-font="deleteFont"
-  //         @set-font-family="setFontFamily"
-  //         @set-font-variant="setFontVariant"
-  //         @set-font-selectors="setFontSelectors">
-  //       </font-settings>
-  //     </div>
-
-  //     <div class="font-picker-add-font-button-container">
-  //       <button
-  //         class="font-picker-add-font-button"
-  //         @click="addFont">
-  //         Add font
-  //       </button>
-  //     </div>
-  //   </div>
-  // `
-
   const css = /* css */ `
     #font-picker-container *,
     #font-picker-container button,
@@ -69,6 +25,8 @@ window.addEventListener("load", async () => {
       border-radius: 4px;
       border: 2px solid gray;
       padding: 0.375rem;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     #font-picker-container button,
@@ -149,6 +107,8 @@ window.addEventListener("load", async () => {
     .font-picker-fonts {
       max-height: calc(calc(100vh - 8rem) - 8px);
       overflow-y: auto;
+      padding-top: 4px;
+      padding-bottom: 4px;
     }
 
     button.font-picker-add-font-button {
@@ -169,16 +129,51 @@ window.addEventListener("load", async () => {
       background-color: rgb(31, 31, 31);
     }
 
-    .font-picker-main-box .font-picker-collapsible-box-header {
+    .font-picker > .font-picker-collapsible-box-header {
       background-color: rgb(51, 51, 51);
       color: white;
     }
+
+    .font-settings-box {
+      margin-bottom: 4px;
+    }
+
+    .font-settings-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .font-picker.is-expanded >
+    .font-picker-collapsible-box-body {
+      max-height: 100vh;
+    }
   `
 
-  const html = `
-    <collapsible-box title="My first box" class="font-picker-main-box">
-      <div>
-        Here's some inner stuff.
+  const html = /* html */ `
+    <collapsible-box
+      title="Font picker"
+      class="font-picker"
+      :class="{'is-expanded': isExpanded}"
+      @expand="isExpanded = true"
+      @collapse="isExpanded = false">
+      <div class="font-picker-fonts">
+        <font-settings-box
+          v-for="font in myFonts"
+          class="font-settings-box"
+          :all-fonts="allFonts"
+          :font="font"
+          @delete-font="deleteFont"
+          @set-font-family="setFontFamily"
+          @set-font-variant="setFontVariant"
+          @set-font-selectors="setFontSelectors">
+        </font-settings-box>
+      </div>
+
+      <div class="font-picker-add-font-button-container">
+        <button
+          class="font-picker-add-font-button"
+          @click="addFont">
+          Add font
+        </button>
       </div>
     </collapsible-box>
   `
@@ -199,7 +194,7 @@ window.addEventListener("load", async () => {
   const app = createApp(
     createVueComponentWithCSS({
       components: {
-        "font-settings": FontSettingsComponent,
+        "font-settings-box": FontSettingsBoxComponent,
         "collapsible-box": CollapsibleBoxComponent,
       },
 
@@ -210,8 +205,8 @@ window.addEventListener("load", async () => {
           extraStylesElement: null,
           myFonts: [],
           allFonts,
-          isExpanded: true,
           css,
+          isExpanded: true,
         }
       },
 
