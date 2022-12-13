@@ -31,7 +31,7 @@ const ${s.helpers.map(f=>`_${is[f]} = ${is[f]}`).join(", ")}
     <div class="font-picker-font" :class="{'is-expanded': isExpanded}">
       <div
         class="font-picker-font-header"
-        @click="!isExpanded ? isExpanded = true : () => {}">
+        @click="isExpanded = !isExpanded">
         <div class="font-picker-font-header-left">
           {{ font.family }} ({{ font.variant }})
         </div>
@@ -115,7 +115,6 @@ const ${s.helpers.map(f=>`_${is[f]} = ${is[f]}`).join(", ")}
     
         .font-picker-font.is-expanded .font-picker-font-header {
           border-radius: 4px 4px 0 0 !important;
-          cursor: default;
         }
     
         .font-picker-font-body {
@@ -128,9 +127,9 @@ const ${s.helpers.map(f=>`_${is[f]} = ${is[f]}`).join(", ")}
           padding-top: 0;
           padding-bottom: 0;
           transition:
-            max-height 0.5s ease-in-out,
-            padding-top 0.5s ease-in-out,
-            padding-bottom 0.5s ease-in-out;
+            max-height 0.15s ease-in-out,
+            padding-top 0.15s ease-in-out,
+            padding-bottom 0.15s ease-in-out;
         }
 
         .font-picker-font.is-expanded .font-picker-font-body {
@@ -138,9 +137,9 @@ const ${s.helpers.map(f=>`_${is[f]} = ${is[f]}`).join(", ")}
           padding-top: 1.5rem;
           padding-bottom: 1.5rem;
           transition:
-            max-height 0.5s ease-in-out,
-            padding-top 0.5s ease-in-out,
-            padding-bottom 0.5s ease-in-out;
+            max-height 0.15s ease-in-out,
+            padding-top 0.15s ease-in-out,
+            padding-bottom 0.15s ease-in-out;
         }
     
         button.font-picker-delete-button {
