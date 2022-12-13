@@ -25,10 +25,9 @@ module.exports = createVueComponentWithCSS({
   },
 
   template: /* html */ `
-    <div class="font-picker-font">
+    <div class="font-picker-font" :class="{'is-expanded': isExpanded}">
       <div
         class="font-picker-font-header"
-        :class="{'is-expanded': isExpanded}"
         @click="!isExpanded ? isExpanded = true : () => {}">
         <div class="font-picker-font-header-left">
           {{ font.family }} ({{ font.variant }})
@@ -49,7 +48,7 @@ module.exports = createVueComponentWithCSS({
         </div>
       </div>
 
-      <div v-if="isExpanded" class="font-picker-font-body">
+      <div class="font-picker-font-body">
         <label class="font-picker-font-family-label">
           Family:
         </label>
@@ -117,7 +116,7 @@ module.exports = createVueComponentWithCSS({
           cursor: pointer;
         }
     
-        .font-picker-font-header.is-expanded {
+        .font-picker-font.is-expanded .font-picker-font-header {
           border-radius: 4px 4px 0 0 !important;
           cursor: default;
         }
@@ -127,6 +126,24 @@ module.exports = createVueComponentWithCSS({
           padding: 1.5rem;
           border-radius: 4px;
           background-color: rgb(245, 245, 245);
+          max-height: 0;
+          overflow: hidden;
+          padding-top: 0;
+          padding-bottom: 0;
+          transition:
+            max-height 0.5s ease-in-out,
+            padding-top 0.5s ease-in-out,
+            padding-bottom 0.5s ease-in-out;
+        }
+
+        .font-picker-font.is-expanded .font-picker-font-body {
+          max-height: 290px;
+          padding-top: 1.5rem;
+          padding-bottom: 1.5rem;
+          transition:
+            max-height 0.5s ease-in-out,
+            padding-top 0.5s ease-in-out,
+            padding-bottom 0.5s ease-in-out;
         }
     
         button.font-picker-delete-button {
