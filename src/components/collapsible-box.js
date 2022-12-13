@@ -17,6 +17,7 @@ const css = /* css */ `
     justify-content: space-between;
     align-content: center;
     align-items: center;
+    gap: 1.5rem;
   }
 
   .font-picker-collapsible-box.is-expanded >
@@ -44,6 +45,39 @@ const css = /* css */ `
       padding 0.15s ease-in-out,
       opacity 0.15s ease-in-out;
   }
+
+  button.font-picker-collapse-button,
+  button.font-picker-expand-button,
+  button.font-picker-close-button {
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    border-radius: 100% !important;
+    width: calc(1.5rem * 0.85);
+    min-width: calc(1.5rem * 0.85);
+    max-width: calc(1.5rem * 0.85);
+    height: calc(1.5rem * 0.85);
+    min-height: calc(1.5rem * 0.85);
+    max-height: calc(1.5rem * 0.85);
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    font-size: calc(1rem / 0.85) !important;
+  }
+
+  button.font-picker-collapse-button:hover,
+  button.font-picker-expand-button:hover {
+    color: hsl(202.5deg, 100%, 75%) !important;
+  }
+  
+  button.font-picker-close-button:hover {
+    color: red !important;
+  }
 `
 
 const template = /* html */ `
@@ -58,7 +92,15 @@ const template = /* html */ `
       </div>
 
       <div>
-        (control buttons)
+        <button
+          :class="{'font-picker-collapse-button': isExpanded, 'font-picker-expand-button': !isExpanded}"
+          @click.stop="toggleIsExpanded">
+          {{ isExpanded ? "−" : "+" }}
+        </button>
+
+        <button class="font-picker-close-button" @click.stop="$emit('close')">
+          ✕
+        </button>
       </div>
     </div>
 
@@ -94,5 +136,11 @@ module.exports = createVueComponentWithCSS({
       self.isExpanded = !self.isExpanded
       self.$emit(self.isExpanded ? "expand" : "collapse")
     },
+  },
+
+  mounted() {
+    const self = this
+    self.$emit("collapse")
+    self.isExpanded = false
   },
 })

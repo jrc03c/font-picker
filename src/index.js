@@ -48,7 +48,6 @@ window.addEventListener("load", async () => {
       background-color: rgb(235, 235, 235);
       border-radius: 4px;
       box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
-      min-width: 256px;
       max-height: calc(100vh - 3rem);
       overflow-y: hidden;
     }
@@ -67,41 +66,8 @@ window.addEventListener("load", async () => {
       margin-bottom: 4px;
     }
 
-    .font-picker-header button {
+    .font-picker > .font-picker-collapsible-box-header button {
       color: white;
-    }
-
-    button.font-picker-collapse-button,
-    button.font-picker-expand-button,
-    button.font-picker-close-button {
-      margin: 0;
-      padding: 0;
-      border: 0 !important;
-      border-radius: 100% !important;
-      width: calc(1.5rem * 0.85);
-      min-width: calc(1.5rem * 0.85);
-      max-width: calc(1.5rem * 0.85);
-      height: calc(1.5rem * 0.85);
-      min-height: calc(1.5rem * 0.85);
-      max-height: calc(1.5rem * 0.85);
-      background-color: transparent;
-      cursor: pointer;
-      display: inline-flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-content: center;
-      align-items: center;
-      font-size: calc(1rem / 0.85) !important;
-    }
-
-    button.font-picker-collapse-button:hover,
-    button.font-picker-expand-button:hover {
-      color: hsl(202.5deg, 100%, 75%);
-    }
-    
-    button.font-picker-close-button:hover {
-      color: red;
     }
 
     .font-picker-fonts {
@@ -146,6 +112,23 @@ window.addEventListener("load", async () => {
     .font-picker-collapsible-box-body {
       max-height: 100vh;
     }
+
+    @media (max-width: 320px) {
+      #font-picker-container {
+        bottom: 0;
+        right: 0;
+      }
+
+      .font-picker >
+      .font-picker-collapsible-box-body {
+        max-width: 100vw;
+      }
+
+      .font-picker.is-expanded >
+      .font-picker-collapsible-box-body {
+        max-width: 100vw;
+      }
+    }
   `
 
   const html = /* html */ `
@@ -154,7 +137,8 @@ window.addEventListener("load", async () => {
       class="font-picker"
       :class="{'is-expanded': isExpanded}"
       @expand="isExpanded = true"
-      @collapse="isExpanded = false">
+      @collapse="isExpanded = false"
+      @close="close">
       <div class="font-picker-fonts">
         <font-settings-box
           v-for="font in myFonts"

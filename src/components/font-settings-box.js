@@ -17,6 +17,8 @@ const css = /* css */ `
   .font-picker-font select,
   .font-picker-font option {
     margin: 0 0 0.75rem 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .font-picker-font.is-expanded >
@@ -31,7 +33,8 @@ const template = /* html */ `
     class="font-picker-font"
     :class="{'is-expanded': isExpanded}"
     @expand="isExpanded = true"
-    @collapse="isExpanded = false">
+    @collapse="isExpanded = false"
+    @close="deleteFont">
     <label class="font-picker-font-family-label">
       Family:
     </label>
