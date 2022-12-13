@@ -8,6 +8,14 @@ This tool makes it easy to test out a bunch of different fonts on a web page wit
 
 **2) Install the font picker in your project:**
 
+Using a CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@jrc03c/font-picker/dist/font-picker.js"></script>
+```
+
+Or using `npm`:
+
 ```bash
 npm install --save https://github.com/jrc03c/font-picker
 ```

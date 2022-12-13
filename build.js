@@ -19,9 +19,12 @@ function build() {
     const outFile1 = path.join(distDir, "font-picker.js")
     const outFile2 = path.join(__dirname, "demo", "font-picker.js")
 
-    execSync(`npx esbuild "${srcFile}" --bundle --outfile="${outFile1}"`, {
-      encoding: "utf8",
-    })
+    execSync(
+      `npx esbuild "${srcFile}" --bundle --outfile="${outFile1}" --minify`,
+      {
+        encoding: "utf8",
+      }
+    )
 
     execSync(`cp "${outFile1}" "${outFile2}"`, {
       encoding: "utf8",
