@@ -52,7 +52,7 @@ If you'd prefer a safer setup that doesn't require hard-coding the API key into 
 
 **4) Load the page:**
 
-When the page loads for the first time, the entire font catalogue is downloaded from Google and cached in `localStorage`. This may take up to a few seconds depending on your network speed. After that, though, the font picker will load the catalogue from `localStorage`, even when the page is reloaded. One point of clarification, though, is that the catalogue is only a list of fonts' family names and variants; any individual font file isn't loaded until you use the font for the first time (i.e., when it's chosen and applied to selectors for the first time).
+When the page loads for the first time, the entire font catalogue is downloaded from Google and cached in `localStorage`. This may take up to a few seconds depending on your network speed. After that, though, the font picker will load the catalogue from `localStorage`, even when the page is reloaded. One point of clarification, though, is that the catalogue is only a list of fonts' family names and variants; any individual font file isn't loaded until you use the font for the first time (i.e., when it's chosen and applied to selectors for the first time). Thus there's often a delay when applying a font for the first time.
 
 As you add, modify, and delete various font rules, your changes will be cached in `localStorage`. When the page is reloaded, your configuration should load from there.
 
