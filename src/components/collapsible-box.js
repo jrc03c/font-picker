@@ -1,4 +1,6 @@
-const createVueComponentWithCSS = require("vue-component-with-css")
+// -----------------------------------------------------------------------------
+// CSS
+// -----------------------------------------------------------------------------
 
 const css = /* css */ `
   .font-picker-collapsible-box {
@@ -18,6 +20,7 @@ const css = /* css */ `
     align-content: center;
     align-items: center;
     gap: 1.5rem;
+    user-select: none;
   }
 
   .font-picker-collapsible-box.is-expanded >
@@ -25,14 +28,19 @@ const css = /* css */ `
     border-radius: 4px 4px 0 0;
   }
 
+  .font-picker-collapsible-box-header-button-container {
+    min-width: 4em;
+    text-align: right;
+  }
+
   .font-picker-collapsible-box-body {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     transition:
-      max-height 0.15s ease-in-out,
-      padding 0.15s ease-in-out,
-      opacity 0.15s ease-in-out;
+      max-height 0.05s ease-in-out,
+      padding 0.05s ease-in-out,
+      opacity 0.05s ease-in-out;
   }
 
   .font-picker-collapsible-box.is-expanded >
@@ -41,9 +49,9 @@ const css = /* css */ `
     overflow: auto;
     opacity: 1;
     transition:
-      max-height 0.15s ease-in-out,
-      padding 0.15s ease-in-out,
-      opacity 0.15s ease-in-out;
+      max-height 0.05s ease-in-out,
+      padding 0.05s ease-in-out,
+      opacity 0.05s ease-in-out;
   }
 
   button.font-picker-collapse-button,
@@ -80,25 +88,32 @@ const css = /* css */ `
   }
 `
 
+// -----------------------------------------------------------------------------
+// HTML
+// -----------------------------------------------------------------------------
+
 const template = /* html */ `
   <div
-    class="font-picker-collapsible-box"
-    :class="{'is-expanded': isExpanded}">
+    :class="{ 'is-expanded': isExpanded }"
+    class="font-picker-collapsible-box">
     <div
-      class="font-picker-collapsible-box-header"
-      @click="toggleIsExpanded">
+      @click="$emit(isExpanded ? 'collapse' : 'expand')"
+      class="font-picker-collapsible-box-header">
       <div>
         {{ title }}
       </div>
 
-      <div>
+      <div class="font-picker-collapsible-box-header-button-container">
         <button
-          :class="{'font-picker-collapse-button': isExpanded, 'font-picker-expand-button': !isExpanded}"
-          @click.stop="toggleIsExpanded">
+          :class="{
+            'font-picker-collapse-button': isExpanded,
+            'font-picker-expand-button': !isExpanded
+          }"
+          @click.stop="$emit(isExpanded ? 'collapse' : 'expand')">
           {{ isExpanded ? "−" : "+" }}
         </button>
 
-        <button class="font-picker-close-button" @click.stop="$emit('close')">
+        <button @click.stop="$emit('close')" class="font-picker-close-button">
           ✕
         </button>
       </div>
@@ -110,10 +125,24 @@ const template = /* html */ `
   </div>
 `
 
+// -----------------------------------------------------------------------------
+// JS
+// -----------------------------------------------------------------------------
+
+const createVueComponentWithCSS = require("@jrc03c/vue-component-with-css")
+
 module.exports = createVueComponentWithCSS({
+  name: "x-collapsible-box",
   emits: ["expand", "collapse"],
+  template,
 
   props: {
+    "is-expanded": {
+      type: Boolean,
+      required: true,
+      default: () => false,
+    },
+
     title: {
       type: String,
       required: true,
@@ -121,26 +150,9 @@ module.exports = createVueComponentWithCSS({
     },
   },
 
-  template,
-
   data() {
     return {
-      isExpanded: true,
       css,
     }
-  },
-
-  methods: {
-    toggleIsExpanded() {
-      const self = this
-      self.isExpanded = !self.isExpanded
-      self.$emit(self.isExpanded ? "expand" : "collapse")
-    },
-  },
-
-  mounted() {
-    const self = this
-    self.$emit("collapse")
-    self.isExpanded = false
   },
 })

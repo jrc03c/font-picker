@@ -1,5 +1,6 @@
-const CollapsibleBoxComponent = require("./collapsible-box")
-const createVueComponentWithCSS = require("vue-component-with-css")
+// -----------------------------------------------------------------------------
+// CSS
+// -----------------------------------------------------------------------------
 
 const css = /* css */ `
   .font-picker-font > .font-picker-collapsible-box-body {
@@ -27,24 +28,37 @@ const css = /* css */ `
   }
 `
 
+// -----------------------------------------------------------------------------
+// HTML
+// -----------------------------------------------------------------------------
+
 const template = /* html */ `
-  <collapsible-box
-    :title="font.family + '(' + font.variant + ')'"
-    class="font-picker-font"
-    :class="{'is-expanded': isExpanded}"
-    @expand="isExpanded = true"
-    @collapse="isExpanded = false"
-    @close="deleteFont">
+  <x-collapsible-box
+    :class="{ 'is-expanded': isExpanded }"
+    :is-expanded="isExpanded"
+    :title="font.family + ' (' + font.variant + ')'"
+    @close="deleteFont"
+    @collapse="$emit('collapse')"
+    @expand="$emit('expand')"
+    class="font-picker-font">
     <label class="font-picker-font-family-label">
       Family:
     </label>
 
     <div class="font-picker-font-family-select-container">
       <select
-        class="font-picker-font-family-select"
+        :value="font.family"
         @input="setFontFamily(font, $event.target.value)"
-        :value="font.family">
-        <option v-for="font in allFonts" :value="font.family">
+        @mousedown="shouldPopulateFontFamilyList = true"
+        class="font-picker-font-family-select">
+        <option v-if="font && !shouldPopulateFontFamilyList">
+          {{ font.family }}
+        </option>
+        <option
+          :key="font-family"
+          :value="font.family"
+          v-for="font in allFonts"
+          v-if="shouldPopulateFontFamilyList">
           {{ font.family }}
         </option>
       </select>
@@ -56,10 +70,13 @@ const template = /* html */ `
 
     <div class="font-picker-font-variants-select-container">
       <select
-        class="font-picker-font-variants-select"
+        :value="font.variant || font.variants[0]"
         @input="setFontVariant(font, $event.target.value)"
-        :value="font.variant || font.variants[0]">
-        <option v-for="variant in font.variants" :value="variant">
+        class="font-picker-font-variants-select">
+        <option
+          :key="variant"
+          :value="variant"
+          v-for="variant in font.variants">
           {{ variant }}
         </option>
       </select>
@@ -71,26 +88,41 @@ const template = /* html */ `
 
     <div class="font-picker-font-selectors-input-container">
       <input
-        class="font-picker-font-selectors-input"
-        type="text"
         :value="font.selectors"
-        @input="$emit('set-font-selectors', {font: font, selectors: $event.target.value})"
-        placeholder="h1, .some-class, #some-id">
+        @input="
+          $emit(
+            'set-font-selectors',
+            { font: font, selectors: $event.target.value }
+          )
+        "
+        class="font-picker-font-selectors-input"
+        placeholder="h1, .some-class, #some-id"
+        type="text">
     </div>
-  </collapsible-box>
+  </x-collapsible-box>
 `
 
+// -----------------------------------------------------------------------------
+// JS
+// -----------------------------------------------------------------------------
+
+const CollapsibleBoxComponent = require("./collapsible-box")
+const createVueComponentWithCSS = require("@jrc03c/vue-component-with-css")
+
 module.exports = createVueComponentWithCSS({
-  components: {
-    "collapsible-box": CollapsibleBoxComponent,
-  },
+  name: "x-font-settings-box",
+  template,
 
   emits: [
     "delete-font",
     "set-font-family",
-    "set-font-variant",
     "set-font-selectors",
+    "set-font-variant",
   ],
+
+  components: {
+    "x-collapsible-box": CollapsibleBoxComponent,
+  },
 
   props: {
     "all-fonts": {
@@ -104,36 +136,36 @@ module.exports = createVueComponentWithCSS({
       required: true,
       default: () => null,
     },
-  },
 
-  template,
+    "is-expanded": {
+      type: Boolean,
+      required: true,
+      default: () => false,
+    },
+  },
 
   data() {
     return {
       css,
-      isExpanded: true,
+      shouldPopulateFontFamilyList: false,
     }
   },
 
   methods: {
     deleteFont(font) {
-      const self = this
-      self.$emit("delete-font", font)
+      this.$emit("delete-font", font)
     },
 
     setFontFamily(font, family) {
-      const self = this
-      self.$emit("set-font-family", { font, family })
-    },
-
-    setFontVariant(font, variant) {
-      const self = this
-      self.$emit("set-font-variant", { font, variant })
+      this.$emit("set-font-family", { font, family })
     },
 
     setFontSelectors(font, selectors) {
-      const self = this
-      self.$emit("set-font-selectors", { font, selectors })
+      this.$emit("set-font-selectors", { font, selectors })
+    },
+
+    setFontVariant(font, variant) {
+      this.$emit("set-font-variant", { font, variant })
     },
   },
 })
