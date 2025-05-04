@@ -1,16 +1,12 @@
 {
-  "name": "@jrc03c/font-picker",
-  "version": "0.0.5",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "node build.js",
-    "watch": "node build.js --watch",
-    "pub": "npm version patch --force && npm publish --access=public"
-  },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@jrc03c/js-math-tools": "^0.0.58",
+    "@jrc03c/vue-component-with-css": "^0.0.4",
+    "lodash": "^4.17.21",
+    "vue": "^3.3.4"
+  },
+  "description": "",
   "devDependencies": {
     "@jrc03c/watch": "^0.0.10",
     "esbuild": "^0.18.17",
@@ -18,10 +14,14 @@
     "eslint-plugin-vue": "^9.16.1",
     "express": "^4.18.2"
   },
-  "dependencies": {
-    "@jrc03c/js-math-tools": "^0.0.58",
-    "@jrc03c/vue-component-with-css": "^0.0.4",
-    "lodash": "^4.17.21",
-    "vue": "^3.3.4"
-  }
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "@jrc03c/font-picker",
+  "scripts": {
+    "build": "node build.js",
+    "pub": "npm version patch --force && npm publish --access=public",
+    "watch": "node build.js --watch"
+  },
+  "version": "0.0.5"
 }
